@@ -25,6 +25,21 @@ router.route("/")
 //new route
 router.get("/new",isLoggedIn,listingController.renderNewform);
 
+// search query
+router.get("/api/search", async (req, res) => {
+
+  let q = req.query.q;
+
+  if (!q) return res.json([]);
+
+  const listings = await Listing.find({
+    title: { $regex: q, $options: "i" }
+  }).limit(5);
+
+  res.json(listings);
+});
+
+
 router.route("/:id")
 .get(
      wrapasync(listingController.showListing))
@@ -45,18 +60,6 @@ router.route("/:id")
 router.get("/:id/edit"
     ,isLoggedIn,wrapasync(listingController.editlisting));
 
-// search query
-router.get("/api/search", async (req, res) => {
 
-  let q = req.query.q;
-
-  if (!q) return res.json([]);
-
-  const listings = await Listing.find({
-    title: { $regex: q, $options: "i" }
-  }).limit(5);
-
-  res.json(listings);
-});
 
 module.exports = router;

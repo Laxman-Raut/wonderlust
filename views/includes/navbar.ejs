@@ -9,11 +9,12 @@
     align-items: center;
     border: 1px solid #ddd;
     border-radius: 40px;
-    overflow: hidden;
     background: white;
     flex: 1;
     max-width: 380px;
     margin: 0 auto;
+    position: relative;  
+    /* ✅ removed overflow:hidden — it was clipping the dropdown */
   }
   .nb-search-wrap input {
     border: none;
@@ -107,6 +108,18 @@
     cursor: pointer;
   }
   #themeToggle:hover { background: #f7f7f7; }
+
+  /* ✅ suggestions dropdown */
+  #suggestionsBox a:hover {
+    background: #f7f7f7;
+  }
+  #suggestionsBox a:last-child {
+    border-bottom: none !important;
+    border-radius: 0 0 12px 12px;
+  }
+  #suggestionsBox a:first-child {
+    border-radius: 12px 12px 0 0;
+  }
 </style>
 
 <nav class="navbar navbar-expand-lg bg-white sticky-top">
@@ -120,13 +133,26 @@
 
     <!-- Search -->
     <div class="nb-search-wrap">
-      <form role="search" class="d-flex w-100 align-items-center" style="position:relative;">
+      <form role="search" class="d-flex w-100 align-items-center">
         <input id="searchInput" type="search" placeholder="Search destination..." />
         <button type="submit" aria-label="Search">
           <i class="fa-solid fa-magnifying-glass" style="font-size:13px;"></i>
         </button>
-        <div id="suggestionsBox" style="position:absolute; top:110%; left:0; width:100%; z-index:9999; background:white; border:1px solid #eee; border-radius:12px; display:none;"></div>
       </form>
+      <!-- ✅ suggestionsBox moved OUTSIDE form, inside nb-search-wrap -->
+      <div id="suggestionsBox" style="
+        position: absolute;
+        top: 110%;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        display: none;
+        overflow: hidden;
+      "></div>
     </div>
 
     <!-- Right side -->
