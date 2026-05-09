@@ -1,0 +1,158 @@
+<style>
+  .navbar {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 1.5rem;
+    height: 64px;
+  }
+  .nb-search-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    overflow: hidden;
+    background: white;
+    flex: 1;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+  .nb-search-wrap input {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 100%;
+    background: transparent;
+  }
+  .nb-search-wrap button {
+    background: #FF385C;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    margin: 4px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .nb-search-wrap button:hover { background: #e0324f; }
+  .nb-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    padding: 5px 10px 5px 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .nb-user-pill:hover { background: #f7f7f7; }
+  .nb-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #FF385C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+  }
+  .nb-pill-link {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 40px;
+    text-decoration: none;
+    color: #222;
+  }
+  .nb-pill-link:hover { background: #f7f7f7; }
+  .nb-signup {
+    background: #FF385C;
+    color: white !important;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 40px;
+    text-decoration: none;
+  }
+  .nb-login {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 40px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #222;
+  }
+  .nb-login:hover { background: #f7f7f7; }
+  .nb-divider {
+    width: 1px;
+    height: 20px;
+    background: #ddd;
+    margin: 0 4px;
+  }
+  #themeToggle {
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  #themeToggle:hover { background: #f7f7f7; }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-white sticky-top">
+  <div class="container-fluid d-flex align-items-center gap-3">
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
+      <i class="fa-brands fa-airbnb" style="color:#FF385C; font-size:28px;"></i>
+      <span style="font-size:15px; font-weight:600; color:#FF385C;">wonderlust</span>
+    </a>
+
+    <!-- Search -->
+    <div class="nb-search-wrap">
+      <form role="search" class="d-flex w-100 align-items-center" style="position:relative;">
+        <input id="searchInput" type="search" placeholder="Search destination..." />
+        <button type="submit" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass" style="font-size:13px;"></i>
+        </button>
+        <div id="suggestionsBox" style="position:absolute; top:110%; left:0; width:100%; z-index:9999; background:white; border:1px solid #eee; border-radius:12px; display:none;"></div>
+      </form>
+    </div>
+
+    <!-- Right side -->
+    <div class="d-flex align-items-center gap-2 ms-auto">
+      <a class="nb-pill-link" href="/listings/new">Airbnb your home</a>
+
+      <div class="nb-divider"></div>
+
+      <button id="themeToggle" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-moon" style="font-size:13px;"></i>
+      </button>
+
+      <% if(!currUser){ %>
+        <a class="nb-signup" href="/signup">Sign up</a>
+        <a class="nb-login" href="/login">Log in</a>
+      <% } %>
+
+      <% if(currUser){ %>
+        <a class="nb-user-pill" href="/logout">
+          <div class="nb-avatar">
+            <i class="fa-solid fa-user" style="font-size:12px;"></i>
+          </div>
+          <span style="font-size:13px; font-weight:500;"><%= currUser.username %></span>
+        </a>
+      <% } %>
+    </div>
+
+  </div>
+</nav>

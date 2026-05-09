@@ -1,0 +1,135 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+  }
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+  }
+  .filter:hover { background-color: #f0f0f0; }
+  .filter.active {
+    border-bottom: 2px solid black;
+    font-weight: bold;
+  }
+  .filter i { font-size: 1.4rem; }
+  .filter p { margin: 0.3rem 0 0; font-size: 0.85rem; }
+  .taxinfo { display: none; }
+</style>
+
+<div class="container-fluid px-4">
+  <div class="filters">
+    <a href="/listings?category=Trending" class="filter <%= currentCategory === 'Trending' ? 'active' : '' %>">
+      <i class="fa-solid fa-fire"></i>
+      <p>Trending</p>
+    </a>
+    <a href="/listings?category=Mountains" class="filter <%= currentCategory === 'Mountains' ? 'active' : '' %>">
+      <i class="fa-solid fa-mountain"></i>
+      <p>Mountains</p>
+    </a>
+    <a href="/listings?category=Beach" class="filter <%= currentCategory === 'Beach' ? 'active' : '' %>">
+      <i class="fa-solid fa-umbrella-beach"></i>
+      <p>Beach</p>
+    </a>
+    <a href="/listings?category=Arctic" class="filter <%= currentCategory === 'Arctic' ? 'active' : '' %>">
+      <i class="fa-solid fa-igloo"></i>
+      <p>Arctic</p>
+    </a>
+    <a href="/listings?category=Rooms" class="filter <%= currentCategory === 'Rooms' ? 'active' : '' %>">
+      <i class="fa-solid fa-bed"></i>
+      <p>Rooms</p>
+    </a>
+    <a href="/listings?category=Amazing Pools" class="filter <%= currentCategory === 'Amazing Pools' ? 'active' : '' %>">
+      <i class="fa-solid fa-water-ladder"></i>
+      <p>Amazing Pools</p>
+    </a>
+    <a href="/listings?category=Cabins" class="filter <%= currentCategory === 'Cabins' ? 'active' : '' %>">
+      <i class="fa-solid fa-house-flag"></i>
+      <p>Cabins</p>
+    </a>
+    <a href="/listings?category=Farms" class="filter <%= currentCategory === 'Farms' ? 'active' : '' %>">
+      <i class="fa-solid fa-building-wheat"></i>
+      <p>Farms</p>
+    </a>
+    <a href="/listings?category=Iconic Cities" class="filter <%= currentCategory === 'Iconic Cities' ? 'active' : '' %>">
+      <i class="fa-solid fa-mountain-city"></i>
+      <p>Iconic Cities</p>
+    </a>
+    <a href="/listings?category=Lake View" class="filter <%= currentCategory === 'Lake View' ? 'active' : '' %>">
+      <i class="fa-solid fa-house-flood-water"></i>
+      <p>Lake View</p>
+    </a>
+    <a href="/listings?category=Old" class="filter <%= currentCategory === 'Old' ? 'active' : '' %>">
+      <i class="fa-brands fa-fort-awesome"></i>
+      <p>Old</p>
+    </a>
+    <a href="/listings?category=Snow" class="filter <%= currentCategory === 'Snow' ? 'active' : '' %>">
+      <i class="fa-solid fa-igloo"></i>
+      <p>Snow</p>
+    </a>
+  </div>
+
+  <div class="tax-toggle mb-1">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault"><b>Display Taxes</b></label>
+    </div>
+  </div>
+
+  <!-- Listings Grid -->
+  <% if (allListings.length === 0) { %>
+    <div class="text-center mt-5">
+      <h4>No listings found in this category.</h4>
+      <a href="/listings" class="btn btn-dark mt-2">View All Listings</a>
+    </div>
+  <% } else { %>
+  <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-2 g-2">
+    <% for (let listing of allListings) { %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none">
+          <div class="card h-100 border-0">
+            <img
+              src="<%= listing.image.url %>"
+              class="card-img-top rounded-3"
+              alt="<%= listing.title %>"
+              style="height: 15rem; object-fit: cover;">
+            <div class="card-body px-1">
+              <p class="card-text text-dark">
+                <b><%= listing.title %></b><br>
+                <span class="text-muted">&#8377;<%= listing.price.toLocaleString("en-IN") %> / night</span>
+                <i class="taxinfo"> +18% GST</i>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+  <% } %>
+</div>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let taxinfo = document.getElementsByClassName("taxinfo");
+    for (let info of taxinfo) {
+      info.style.display = info.style.display !== "inline" ? "inline" : "none";
+    }
+  });
+</script>
